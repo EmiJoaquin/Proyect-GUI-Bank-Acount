@@ -35,7 +35,8 @@ public GuiCuenta(){
     super ("Cuenta");
     cuentaPesos = new CuentaBancaria();
     cuentaUSD = new CuentaEspecial();
-    setSize(450, 350);
+    setSize(550, 450);
+    setLocationRelativeTo(null);
 	  setDefaultCloseOperation(EXIT_ON_CLOSE);
 	  iniciarGUI();
     setVisible(true);
