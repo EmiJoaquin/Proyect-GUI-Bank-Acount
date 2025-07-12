@@ -1,11 +1,13 @@
 import java.awt.*; 
 import java.awt.event.*; 
-import javax.swing.*; 
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.*;
 
 class GuiCuenta extends JFrame {
   //*Atributos de instancia, objetos gráficos y de la aplicación*/
-  private CuentaBancaria saldoPesos, saldoUSD; //Estos atributos creo no se usan
+  private CuentaBancaria saldoPesos;
+  private CuentaEspecial saldoUSD;
   private Container contenedor;
 
   //Paneles
@@ -28,45 +30,51 @@ class GuiCuenta extends JFrame {
   private JButton botonExtraerUSD;
   private JButton botonDepositarUSD;
 
-  public GuiCuenta(){
+public GuiCuenta(){
     super ("Cuenta");
-    //Inicializa variables
     saldoPesos = new CuentaBancaria();
     saldoUSD = new CuentaEspecial();
-    //Establece los valores de los atributos del frame
-    contenedor = getContentPane();
-    contenedor.setLayout(new GridLayout(1,2));
-    setSize(500, 600);
-    panelPesos = new JPanel();
-    panelUSD = new JPanel();
-    Color colorFondo = new Color(204, 229, 255);
-    panelPesos.setBackground(colorFondo);  
-    //panelPesos.setLayout(new GridLayout(4, 2));
-    panelPesos.setPreferredSize(new Dimension(200, 200));
-    panelUSD.setBackground(colorFondo);
-    panelUSD.setLayout(new GridLayout(4, 2));
-    panelUSD.setPreferredSize(new Dimension(200, 200));
-    contenedor.add(panelPesos);
-    contenedor.add(panelUSD);
+    setSize(450, 350);
 	  setDefaultCloseOperation(EXIT_ON_CLOSE);
-    //Invoca a un método interno que completa la GUI
-	  hacerGUI();
+	  iniciarGUI();
     setVisible(true);
   }
   //Implementa las clases oyente
-  private void hacerGUI(){
+  private void iniciarGUI(){
+    //Se crea el Frame y los dos paneles de las cuentas
+    contenedor = getContentPane();
+    contenedor.setLayout(new GridLayout(1,2));
+    panelPesos = new JPanel();
+    panelUSD = new JPanel();
+    Color colorFondo = new Color(204, 229, 255);
+    panelPesos.setBackground(colorFondo);
+    panelPesos.setPreferredSize(new Dimension(200, 200));
+    panelPesos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Cuenta $$", TitledBorder.LEFT, TitledBorder.CENTER, new Font("Calibri", 1, 20), Color.DARK_GRAY));
+    panelUSD.setBackground(colorFondo);
+    panelUSD.setPreferredSize(new Dimension(200, 200));
+    panelUSD.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Cuenta U$D", TitledBorder.LEFT, TitledBorder.CENTER, new Font("Calibri", 1, 20), Color.DARK_GRAY));
+    contenedor.add(panelPesos);
+    contenedor.add(panelUSD);
+
     //Crea las etiquetas para mostrar los dos fondos
-    tituloPesos = new JLabel("Cuenta pesos");
-    tituloUSD = new JLabel("Cuenta USD");
+    tituloPesos = new JLabel("ARS: ");
+    tituloUSD = new JLabel("USD: ");
     etiquetaSaldoPesos = new JLabel(saldoPesos.saldo());
+    etiquetaSaldoPesos.setPreferredSize(new Dimension(100, 30));
     etiquetaSaldoUSD = new JLabel(saldoUSD.saldo());
+    etiquetaSaldoUSD.setPreferredSize(new Dimension(100, 30));
+
     //Crea los botones
-    botonExtraerPesos = new JButton("Extraer pesos");
-    botonExtraerPesos.setPreferredSize(new Dimension(100, 30));;
-    botonDepositarPesos = new JButton("Depositar pesos");
-    botonDepositarPesos.setPreferredSize(new Dimension(100, 30));
+    botonExtraerPesos = new JButton("Extraer ARS");
+    botonExtraerPesos.setPreferredSize(new Dimension(200, 35));;
+    botonDepositarPesos = new JButton("Depositar ARS");
+    botonDepositarPesos.setPreferredSize(new Dimension(200, 35));
     botonExtraerUSD = new JButton("Extraer USD");
+    botonExtraerUSD.setPreferredSize(new Dimension(200, 35));
     botonDepositarUSD = new JButton("Depositar USD");
+    botonDepositarUSD.setPreferredSize(new Dimension(200, 35));
+
+    //Crea etiquetas que van dentro de los paneles
     montoAExtraerPesos = new JTextField();
     montoAExtraerPesos.setPreferredSize(new Dimension(100, 30));
     montoADepositarPesos = new JTextField();
@@ -75,6 +83,7 @@ class GuiCuenta extends JFrame {
     montoAExtraerUSD.setPreferredSize(new Dimension(100, 30));
     montoADepositarUSD = new JTextField();
     montoADepositarUSD.setPreferredSize(new Dimension(100, 30));
+
     //Registra los botones en sus respectivos oyentes
     OyenteBotonExtraerPesos EP = new OyenteBotonExtraerPesos();
     botonExtraerPesos.addActionListener(EP);
@@ -85,23 +94,21 @@ class GuiCuenta extends JFrame {
     OyenteBotonDepositarUSD DU = new OyenteBotonDepositarUSD();
     botonDepositarUSD.addActionListener(DU);
 
-    //Inserta las componentes en los paneles
-
+//Inserta las componentes en los paneles	
     //panelPesos
     panelPesos.add(tituloPesos);
     panelPesos.add(etiquetaSaldoPesos);
     panelPesos.add(botonExtraerPesos);
-    panelPesos.add(botonDepositarPesos);
     panelPesos.add(montoAExtraerPesos);
+    panelPesos.add(botonDepositarPesos);
     panelPesos.add(montoADepositarPesos);
-
 
     //panelUSD
     panelUSD.add(tituloUSD);
     panelUSD.add(etiquetaSaldoUSD);
     panelUSD.add(botonExtraerUSD);
-    panelUSD.add(botonDepositarUSD);
     panelUSD.add(montoAExtraerUSD);
+    panelUSD.add(botonDepositarUSD);
     panelUSD.add(montoADepositarUSD);
 
  }
