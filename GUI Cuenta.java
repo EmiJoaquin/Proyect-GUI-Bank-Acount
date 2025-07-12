@@ -2,12 +2,11 @@ import java.awt.*;
 import java.awt.event.*; 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.*;
 
 class GuiCuenta extends JFrame {
   //*Atributos de instancia, objetos gráficos y de la aplicación*/
-  private CuentaBancaria saldoPesos;
-  private CuentaEspecial saldoUSD;
+  private CuentaBancaria cuentaPesos;
+  private CuentaEspecial cuentaUSD;
   private Container contenedor;
 
   //Paneles
@@ -23,6 +22,8 @@ class GuiCuenta extends JFrame {
   private JLabel tituloUSD;
   private JLabel etiquetaSaldoPesos;
   private JLabel etiquetaSaldoUSD;
+  private JLabel notificacionPesos;
+  private JLabel notificacionUSD;
 
   //Botones
   private JButton botonExtraerPesos;
@@ -32,8 +33,8 @@ class GuiCuenta extends JFrame {
 
 public GuiCuenta(){
     super ("Cuenta");
-    saldoPesos = new CuentaBancaria();
-    saldoUSD = new CuentaEspecial();
+    cuentaPesos = new CuentaBancaria();
+    cuentaUSD = new CuentaEspecial();
     setSize(450, 350);
 	  setDefaultCloseOperation(EXIT_ON_CLOSE);
 	  iniciarGUI();
@@ -41,7 +42,7 @@ public GuiCuenta(){
   }
   //Implementa las clases oyente
   private void iniciarGUI(){
-    //Se crea el Frame y los dos paneles de las cuentas
+//Se crean los dos paneles de las cuentas y se agregan al Frame
     contenedor = getContentPane();
     contenedor.setLayout(new GridLayout(1,2));
     panelPesos = new JPanel();
@@ -56,15 +57,17 @@ public GuiCuenta(){
     contenedor.add(panelPesos);
     contenedor.add(panelUSD);
 
-    //Crea las etiquetas para mostrar los dos fondos
+//Se inicializan las etiquetas para mostraren paneles
     tituloPesos = new JLabel("ARS: ");
     tituloUSD = new JLabel("USD: ");
-    etiquetaSaldoPesos = new JLabel(saldoPesos.saldo());
+    etiquetaSaldoPesos = new JLabel(cuentaPesos.saldo());
     etiquetaSaldoPesos.setPreferredSize(new Dimension(100, 30));
-    etiquetaSaldoUSD = new JLabel(saldoUSD.saldo());
+    etiquetaSaldoUSD = new JLabel(cuentaUSD.saldo());
     etiquetaSaldoUSD.setPreferredSize(new Dimension(100, 30));
+    notificacionPesos = new JLabel();
+    notificacionUSD = new JLabel();
 
-    //Crea los botones
+//Se inicializan los botones
     botonExtraerPesos = new JButton("Extraer ARS");
     botonExtraerPesos.setPreferredSize(new Dimension(200, 35));;
     botonDepositarPesos = new JButton("Depositar ARS");
@@ -74,17 +77,17 @@ public GuiCuenta(){
     botonDepositarUSD = new JButton("Depositar USD");
     botonDepositarUSD.setPreferredSize(new Dimension(200, 35));
 
-    //Crea etiquetas que van dentro de los paneles
+//Se inicializan las etiquetas que van dentro de los paneles
     montoAExtraerPesos = new JTextField();
-    montoAExtraerPesos.setPreferredSize(new Dimension(100, 30));
+    montoAExtraerPesos.setPreferredSize(new Dimension(150, 30));
     montoADepositarPesos = new JTextField();
-    montoADepositarPesos.setPreferredSize(new Dimension(100, 30));
+    montoADepositarPesos.setPreferredSize(new Dimension(150, 30));
     montoAExtraerUSD = new JTextField();
-    montoAExtraerUSD.setPreferredSize(new Dimension(100, 30));
+    montoAExtraerUSD.setPreferredSize(new Dimension(150, 30));
     montoADepositarUSD = new JTextField();
-    montoADepositarUSD.setPreferredSize(new Dimension(100, 30));
+    montoADepositarUSD.setPreferredSize(new Dimension(150, 30));
 
-    //Registra los botones en sus respectivos oyentes
+//Se vincula los botones con sus respectivos oyentes
     OyenteBotonExtraerPesos EP = new OyenteBotonExtraerPesos();
     botonExtraerPesos.addActionListener(EP);
     OyenteBotonDepositarPesos DP = new OyenteBotonDepositarPesos();
@@ -102,6 +105,7 @@ public GuiCuenta(){
     panelPesos.add(montoAExtraerPesos);
     panelPesos.add(botonDepositarPesos);
     panelPesos.add(montoADepositarPesos);
+    panelPesos.add(notificacionPesos);
 
     //panelUSD
     panelUSD.add(tituloUSD);
@@ -110,35 +114,98 @@ public GuiCuenta(){
     panelUSD.add(montoAExtraerUSD);
     panelUSD.add(botonDepositarUSD);
     panelUSD.add(montoADepositarUSD);
-
- }
+    panelUSD.add(notificacionUSD);
+}
+public void limpiarTextFileds()
+{
+  montoAExtraerPesos.setText("");
+  montoADepositarPesos.setText("");
+  montoAExtraerUSD.setText("");
+  montoADepositarUSD.setText("");
+  notificacionPesos.setText("");
+  notificacionUSD.setText("");
+}
   //Implementa las oyentes
   private class OyenteBotonExtraerPesos implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       String monto = montoAExtraerPesos.getText();
-      saldoPesos.extraer(Integer.parseInt(monto));
-      etiquetaSaldoPesos.setText(saldoPesos.saldo());
+      if (Integer.parseInt(monto) > 0)
+      {
+        if (cuentaPesos.puedeExtraer(Integer.parseInt(monto)))
+        {
+          cuentaPesos.extraer(Integer.parseInt(monto));
+          etiquetaSaldoPesos.setText(cuentaPesos.saldo());
+          limpiarTextFileds();
+          notificacionPesos.setText("Retire su Dinero.");
+        }
+        else
+        {
+          limpiarTextFileds();
+          notificacionPesos.setText("Saldo Insuficiente.");
+        }
+      }
+      else
+      {
+        limpiarTextFileds();
+        notificacionPesos.setText("El monto a extraer debe ser mayor a 0.");
+      }
     }  
   }
   private class OyenteBotonDepositarPesos implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       String monto = montoADepositarPesos.getText();
-      saldoPesos.depositar(Integer.parseInt(monto));
-      etiquetaSaldoPesos.setText(saldoPesos.saldo());
+      if (Integer.parseInt(monto)>0)
+      {
+        cuentaPesos.depositar(Integer.parseInt(monto));
+        etiquetaSaldoPesos.setText(cuentaPesos.saldo());
+        limpiarTextFileds();
+      }
+      else
+      {
+        limpiarTextFileds();
+        notificacionPesos.setText("El monto a depositar debe ser mayor a 0.");
+      }
     }  
   }
   private class OyenteBotonExtraerUSD implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       String monto = montoAExtraerUSD.getText();
-      saldoUSD.extraer(Integer.parseInt(monto));
-      etiquetaSaldoUSD.setText(saldoUSD.saldo());
+      if (Integer.parseInt(monto) > 0)
+      {
+        if (cuentaUSD.puedeExtraer(Integer.parseInt(monto)))
+        {
+          cuentaUSD.extraerUSD(Integer.parseInt(monto));
+          etiquetaSaldoUSD.setText(cuentaUSD.saldo());
+          limpiarTextFileds();
+          notificacionUSD.setText("Retire su Dinero.");
+        }
+        else
+        {
+          limpiarTextFileds();
+          notificacionUSD.setText("Saldo Insuficiente.");
+        }
+      }
+      else
+      {
+        limpiarTextFileds();
+        notificacionUSD.setText("El monto a extraer debe ser mayor a 0.");
+      }
     }  
   }
   private class OyenteBotonDepositarUSD implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       String monto = montoADepositarUSD.getText();
-      saldoUSD.extraer(Integer.parseInt(monto));
-      etiquetaSaldoUSD.setText(saldoUSD.saldo());
+      if (Integer.parseInt(monto)>0)
+      {
+        cuentaUSD.depositarUSD(Integer.parseInt(monto));
+        etiquetaSaldoUSD.setText(cuentaUSD.saldo());
+        limpiarTextFileds();
+      }
+      else
+      {
+        limpiarTextFileds();
+        notificacionUSD.setText("El monto a depositar debe ser mayor a 0.");
+      }
     }  
   }
 }

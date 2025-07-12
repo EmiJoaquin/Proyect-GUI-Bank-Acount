@@ -23,7 +23,17 @@ class CuentaBancaria
     }
     public String saldo()
     {
-        return "$"+ consultarSaldo();
+        return "$ "+ consultarSaldo();
+    }
+    public boolean puedeExtraer(int monto)
+    {
+        boolean puede = false;
+        if (monto <= consultarSaldo())
+        {
+            puede = true;
+            return puede; 
+        }
+        return puede;
     }
 }
 class CuentaEspecial extends CuentaBancaria
@@ -51,6 +61,6 @@ class CuentaEspecial extends CuentaBancaria
     }
     public String saldo()
     {
-        return "$"+ consultarSaldo();
+        return "u$s "+ consultarSaldo();
     }
 }
