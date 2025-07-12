@@ -5,29 +5,29 @@ import javax.swing.event.*;
 
 class GuiCuenta extends JFrame {
   //*Atributos de instancia, objetos gráficos y de la aplicación*/
-  private CuentaBancaria saldoPesos, saldoUSD; //Estos atributos creo no se usan
+  private CuentaBancaria saldoPesos;
+  private CuentaEspecial saldoUSD;
   private Container contenedor;
 
   //Paneles
   private JPanel panelPesos;
   private JPanel panelUSD;
 
-  //Labels y textFiled
+  //Labels y textFileds
   private JTextField montoAExtraer;
   private JTextField montoADepositar;
+  private JTextField montoUSDAExtraer;
+  private JTextField montoUSDADepositar;
   private JLabel tituloPesos;
   private JLabel tituloUSD;
   private JLabel etiquetaSaldoPesos;
   private JLabel etiquetaSaldoUSD;
-  private JLabel USDDisponibles;
 
   //Botones
   private JButton botonExtraerPesos;
   private JButton botonDepositarPesos;
-  private JButton botonConsultarPesos;
   private JButton botonExtraerUSD;
   private JButton botonDepositarUSD;
-  private JButton botonConsultarUSD;
 
   
   public GuiCuenta(){
@@ -43,10 +43,8 @@ class GuiCuenta extends JFrame {
     panelUSD = new JPanel();
     Color colorFondo = new Color(204, 229, 255);
     panelPesos.setBackground(colorFondo);  
-    //panelPesos.setLayout(new GridLayout(4, 2));
     panelPesos.setPreferredSize(new Dimension(200, 200));
     panelUSD.setBackground(colorFondo);
-    panelUSD.setLayout(new GridLayout(4, 2));
     panelUSD.setPreferredSize(new Dimension(200, 200));
     contenedor.add(panelPesos);
     contenedor.add(panelUSD);
@@ -58,55 +56,57 @@ class GuiCuenta extends JFrame {
   //Implementa las clases oyente
   private void hacerGUI(){
     //Crea las etiquetas para mostrar los dos fondos
-    tituloPesos = new JLabel("Cuenta pesos");
-    tituloUSD = new JLabel("Cuenta USD");
+    tituloPesos = new JLabel("Cuenta ARS: ");
+    tituloUSD = new JLabel("Cuenta USD: ");
     etiquetaSaldoPesos = new JLabel(saldoPesos.saldo());
-    etiquetaSaldoUSD = new JLabel("Saldo USD");
+    etiquetaSaldoPesos.setPreferredSize(new Dimension(100, 30));
+    etiquetaSaldoUSD = new JLabel(saldoUSD.saldoUSD());
+    etiquetaSaldoUSD.setPreferredSize(new Dimension(100, 30));
     //Crea los botones
-    botonConsultarPesos = new JButton("Consultar fondo en pesos");
-    botonConsultarPesos.setPreferredSize(new Dimension(200, 30));
-    botonExtraerPesos = new JButton("Extraer pesos");
-    botonExtraerPesos.setPreferredSize(new Dimension(100, 30));;
-    botonDepositarPesos = new JButton("Depositar pesos");
-    botonDepositarPesos.setPreferredSize(new Dimension(100, 30));
+    botonExtraerPesos = new JButton("Extraer ARS");
+    botonExtraerPesos.setPreferredSize(new Dimension(200, 35));;
+    botonDepositarPesos = new JButton("Depositar ARS");
+    botonDepositarPesos.setPreferredSize(new Dimension(200, 35));
     botonExtraerUSD = new JButton("Extraer USD");
+    botonExtraerUSD.setPreferredSize(new Dimension(200, 35));
     botonDepositarUSD = new JButton("Depositar USD");
-    botonConsultarUSD = new JButton("Consultar fondo en USD");
+    botonDepositarUSD.setPreferredSize(new Dimension(200, 35));
+    //Crea etiquetas
     montoAExtraer = new JTextField();
     montoAExtraer.setPreferredSize(new Dimension(100, 30));
     montoADepositar = new JTextField();
     montoADepositar.setPreferredSize(new Dimension(100, 30));
+    montoUSDAExtraer = new JTextField();
+    montoUSDAExtraer.setPreferredSize(new Dimension(100, 30));
+    montoUSDADepositar = new JTextField();
+    montoUSDADepositar.setPreferredSize(new Dimension(100, 30));
     //Registra los botones en sus respectivos oyentes
     OyenteBotonExtraerPesos EP = new OyenteBotonExtraerPesos();
     botonExtraerPesos.addActionListener(EP);
     OyenteBotonDepositarPesos DP = new OyenteBotonDepositarPesos();
     botonDepositarPesos.addActionListener(DP);
-    OyenteBotonConsultarPesos CP = new OyenteBotonConsultarPesos();
-    botonConsultarPesos.addActionListener(CP);
     OyenteBotonExtraerUSD EU = new OyenteBotonExtraerUSD();
     botonExtraerUSD.addActionListener(EU);
     OyenteBotonDepositarUSD DU = new OyenteBotonDepositarUSD();
     botonDepositarUSD.addActionListener(DU);
-    OyenteBotonConsultarUSD CU = new OyenteBotonConsultarUSD();
-    botonConsultarUSD.addActionListener(CU);
 
     //Inserta las componentes en los paneles	
     //panelPesos
     panelPesos.add(tituloPesos);
     panelPesos.add(etiquetaSaldoPesos);
-    //panelPesos.add(botonConsultarPesos);
     panelPesos.add(botonExtraerPesos);
     panelPesos.add(montoAExtraer);
     panelPesos.add(botonDepositarPesos);
     panelPesos.add(montoADepositar);
 
-
     //panelUSD
     panelUSD.add(tituloUSD);
-    panelUSD.add(botonConsultarUSD);
+    panelUSD.add(etiquetaSaldoUSD);
     panelUSD.add(botonExtraerUSD);
+    panelUSD.add(montoUSDAExtraer);
     panelUSD.add(botonDepositarUSD);
-    //panelUSD.add(USDDisponibles);
+    panelUSD.add(montoUSDADepositar);
+
  }
   //Implementa las oyentes
   private class OyenteBotonExtraerPesos implements ActionListener {

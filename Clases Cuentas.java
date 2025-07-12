@@ -23,7 +23,7 @@ class CuentaBancaria
     }
     public String saldo()
     {
-        return "$"+ consultarSaldo();
+        return "$ "+ consultarSaldo();
     }
 }
 class CuentaEspecial extends CuentaBancaria
@@ -48,5 +48,9 @@ class CuentaEspecial extends CuentaBancaria
     public int consultarSaldo()
     {
         return this.saldoUSD;
+    }
+    public String saldoUSD()
+    {
+        return "US$ "+consultarSaldo();
     }
 }
