@@ -36,6 +36,7 @@ public GuiCuenta(){
     cuentaPesos = new CuentaBancaria();
     cuentaUSD = new CuentaEspecial();
     setSize(550, 450);
+    setResizable(false);
     setLocationRelativeTo(null);
 	  setDefaultCloseOperation(EXIT_ON_CLOSE);
 	  iniciarGUI();
@@ -51,10 +52,10 @@ public GuiCuenta(){
     Color colorFondo = new Color(204, 229, 255);
     panelPesos.setBackground(colorFondo);
     panelPesos.setPreferredSize(new Dimension(200, 200));
-    panelPesos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Cuenta $$", TitledBorder.LEFT, TitledBorder.CENTER, new Font("Calibri", 1, 20), Color.DARK_GRAY));
+    panelPesos.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Cuenta $$", TitledBorder.LEFT, TitledBorder.CENTER, new Font("Calibri", 1, 25), Color.DARK_GRAY));
     panelUSD.setBackground(colorFondo);
     panelUSD.setPreferredSize(new Dimension(200, 200));
-    panelUSD.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Cuenta U$D", TitledBorder.LEFT, TitledBorder.CENTER, new Font("Calibri", 1, 20), Color.DARK_GRAY));
+    panelUSD.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Cuenta U$D", TitledBorder.LEFT, TitledBorder.CENTER, new Font("Calibri", 1, 25), Color.DARK_GRAY));
     contenedor.add(panelPesos);
     contenedor.add(panelUSD);
 
@@ -63,8 +64,10 @@ public GuiCuenta(){
     tituloUSD = new JLabel("USD: ");
     etiquetaSaldoPesos = new JLabel(cuentaPesos.saldo());
     etiquetaSaldoPesos.setPreferredSize(new Dimension(100, 30));
+    etiquetaSaldoPesos.setFont(new Font("Calibri", 1, 22));
     etiquetaSaldoUSD = new JLabel(cuentaUSD.saldo());
     etiquetaSaldoUSD.setPreferredSize(new Dimension(100, 30));
+    etiquetaSaldoUSD.setFont(new Font("Calibri", 1, 22));
     notificacionPesos = new JLabel();
     notificacionUSD = new JLabel();
 
@@ -80,13 +83,13 @@ public GuiCuenta(){
 
 //Se inicializan las etiquetas que van dentro de los paneles
     montoAExtraerPesos = new JTextField();
-    montoAExtraerPesos.setPreferredSize(new Dimension(150, 30));
+    montoAExtraerPesos.setPreferredSize(new Dimension(175, 30));
     montoADepositarPesos = new JTextField();
-    montoADepositarPesos.setPreferredSize(new Dimension(150, 30));
+    montoADepositarPesos.setPreferredSize(new Dimension(175, 30));
     montoAExtraerUSD = new JTextField();
-    montoAExtraerUSD.setPreferredSize(new Dimension(150, 30));
+    montoAExtraerUSD.setPreferredSize(new Dimension(175, 30));
     montoADepositarUSD = new JTextField();
-    montoADepositarUSD.setPreferredSize(new Dimension(150, 30));
+    montoADepositarUSD.setPreferredSize(new Dimension(175, 30));
 
 //Se vincula los botones con sus respectivos oyentes
     OyenteBotonExtraerPesos EP = new OyenteBotonExtraerPesos();
