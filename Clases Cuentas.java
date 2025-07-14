@@ -1,66 +1,52 @@
-class CuentaBancaria
-{
+class CuentaBancaria{
     //Atributos
     private int saldoPesos;
     //Constructor
-    public CuentaBancaria()
-    {
+    public CuentaBancaria(){
         this.saldoPesos = 0;
     }
     //Comandos
-    public void extraer(int monto)
-    {
+    public void extraer(int monto){
         this.saldoPesos -= monto;
     }
-    public void depositar(int monto)
-    {
+    public void depositar(int monto){
         this.saldoPesos += monto;
     }
     //Consultas
-    public int consultarSaldo()
-    {
+    public int consultarSaldo(){
         return this.saldoPesos;
     }
-    public String saldo()
-    {
+    public String saldo(){
         return "$ "+ consultarSaldo();
     }
-    public boolean puedeExtraer(int monto)
-    {
+    public boolean puedeExtraer(int monto){
         boolean puede = false;
-        if (monto <= consultarSaldo())
-        {
+        if (monto <= consultarSaldo()){
             puede = true;
             return puede; 
         }
         return puede;
     }
 }
-class CuentaEspecial extends CuentaBancaria
-{
+class CuentaEspecial extends CuentaBancaria{
     //Atributos
     private int saldoUSD;
     //Constructor
-    public CuentaEspecial()
-    {
+    public CuentaEspecial(){
         this.saldoUSD = 0;
     }
     //Comandos
-    public void extraerUSD(int monto)
-    {
+    public void extraerUSD(int monto){
         this.saldoUSD -= monto;
     }
-    public void depositarUSD(int monto)
-    {
+    public void depositarUSD(int monto){
         this.saldoUSD += monto;
     }
     //Consultas
-    public int consultarSaldo()
-    {
+    public int consultarSaldo(){
         return this.saldoUSD;
     }
-    public String saldo()
-    {
+    public String saldo(){
         return "u$s "+ consultarSaldo();
     }
 }

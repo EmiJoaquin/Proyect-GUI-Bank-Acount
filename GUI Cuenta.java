@@ -3,7 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-class GuiCuenta extends JFrame {
+class GuiCuenta extends JFrame{
   //*Atributos de instancia, objetos gráficos y de la aplicación*/
   private CuentaBancaria cuentaPesos;
   private CuentaEspecial cuentaUSD;
@@ -42,7 +42,7 @@ public GuiCuenta(){
 	  iniciarGUI();
     setVisible(true);
   }
-  //Implementa las clases oyente
+//Implementa las clases oyente
   private void iniciarGUI(){
 //Se crean los dos paneles de las cuentas y se agregan al Frame
     contenedor = getContentPane();
@@ -119,37 +119,32 @@ public GuiCuenta(){
     panelUSD.add(botonDepositarUSD);
     panelUSD.add(montoADepositarUSD);
     panelUSD.add(notificacionUSD);
-}
-public void limpiarTextFileds()
-{
-  montoAExtraerPesos.setText("");
-  montoADepositarPesos.setText("");
-  montoAExtraerUSD.setText("");
-  montoADepositarUSD.setText("");
-  notificacionPesos.setText("");
-  notificacionUSD.setText("");
-}
+  }
+  public void limpiarTextFileds(){
+    montoAExtraerPesos.setText("");
+    montoADepositarPesos.setText("");
+    montoAExtraerUSD.setText("");
+    montoADepositarUSD.setText("");
+    notificacionPesos.setText("");
+    notificacionUSD.setText("");
+  }
   //Implementa las oyentes
   private class OyenteBotonExtraerPesos implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       String monto = montoAExtraerPesos.getText();
-      if (Integer.parseInt(monto) > 0)
-      {
-        if (cuentaPesos.puedeExtraer(Integer.parseInt(monto)))
-        {
+      if (Integer.parseInt(monto) > 0){
+        if (cuentaPesos.puedeExtraer(Integer.parseInt(monto))){
           cuentaPesos.extraer(Integer.parseInt(monto));
           etiquetaSaldoPesos.setText(cuentaPesos.saldo());
           limpiarTextFileds();
           notificacionPesos.setText("Retire su Dinero.");
         }
-        else
-        {
+        else{
           limpiarTextFileds();
           notificacionPesos.setText("Saldo Insuficiente.");
         }
       }
-      else
-      {
+      else{
         limpiarTextFileds();
         notificacionPesos.setText("El monto a extraer debe ser mayor a 0.");
       }
@@ -158,14 +153,12 @@ public void limpiarTextFileds()
   private class OyenteBotonDepositarPesos implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       String monto = montoADepositarPesos.getText();
-      if (Integer.parseInt(monto)>0)
-      {
+      if (Integer.parseInt(monto)>0){
         cuentaPesos.depositar(Integer.parseInt(monto));
         etiquetaSaldoPesos.setText(cuentaPesos.saldo());
         limpiarTextFileds();
       }
-      else
-      {
+      else{
         limpiarTextFileds();
         notificacionPesos.setText("El monto a depositar debe ser mayor a 0.");
       }
@@ -174,23 +167,19 @@ public void limpiarTextFileds()
   private class OyenteBotonExtraerUSD implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       String monto = montoAExtraerUSD.getText();
-      if (Integer.parseInt(monto) > 0)
-      {
-        if (cuentaUSD.puedeExtraer(Integer.parseInt(monto)))
-        {
+      if (Integer.parseInt(monto) > 0){
+        if (cuentaUSD.puedeExtraer(Integer.parseInt(monto))){
           cuentaUSD.extraerUSD(Integer.parseInt(monto));
           etiquetaSaldoUSD.setText(cuentaUSD.saldo());
           limpiarTextFileds();
           notificacionUSD.setText("Retire su Dinero.");
         }
-        else
-        {
+        else{
           limpiarTextFileds();
           notificacionUSD.setText("Saldo Insuficiente.");
         }
       }
-      else
-      {
+      else{
         limpiarTextFileds();
         notificacionUSD.setText("El monto a extraer debe ser mayor a 0.");
       }
@@ -199,14 +188,12 @@ public void limpiarTextFileds()
   private class OyenteBotonDepositarUSD implements ActionListener {
     public void actionPerformed(ActionEvent event) {
       String monto = montoADepositarUSD.getText();
-      if (Integer.parseInt(monto)>0)
-      {
+      if (Integer.parseInt(monto)>0){
         cuentaUSD.depositarUSD(Integer.parseInt(monto));
         etiquetaSaldoUSD.setText(cuentaUSD.saldo());
         limpiarTextFileds();
       }
-      else
-      {
+      else{
         limpiarTextFileds();
         notificacionUSD.setText("El monto a depositar debe ser mayor a 0.");
       }
